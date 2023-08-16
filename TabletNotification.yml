@@ -37,13 +37,14 @@ blueprint:
     
   mode: single
 
-  condition:
-    - condition: state
-      entity_id: !input disable_toggle
-      state: "off"
-
   action:
-    - service: !input notify_email
-      data:
-        title: !input notification_title
-        message: !input notification_message
+    choose:
+      - conditions:
+          - condition: state
+            entity_id: !input disable_toggle
+            state: "off"
+        sequence:
+          - service: !input notify_email
+            data:
+              title: !input notification_title
+              message: !input notification_message
