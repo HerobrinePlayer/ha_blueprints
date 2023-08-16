@@ -17,18 +17,23 @@ blueprint:
         entity:
           domain: input_boolean
           multiple: false
-    notify_email:
-      name: Email Service
-      description: To send the emails from
+    actions:
+      name: Actions
+      description: Notifications or similar to be run. {{sensors}} is replaced with the names of sensors being low on battery.
       selector:
-        device:
-          integration: smtp
-    notification_title:
-      name: Notification title (Optional)
-      default: "Tablet has left app"
-    notification_message:
-      name: Notification message (Optional)
-      default: "Check tablet and put it back in the correct app"
+        action:
+    #notify_email:
+    #  name: Email Service
+    #  description: To send the emails from
+    #  selector:
+    #    device:
+    #      integration: smtp
+    #notification_title:
+    #  name: Notification title (Optional)
+    #  default: "Tablet has left app"
+    #notification_message:
+    #  name: Notification message (Optional)
+    #  default: "Check tablet and put it back in the correct app"
 
   mode: single
 
@@ -47,8 +52,8 @@ blueprint:
           - condition: state
             entity_id: !input disable_toggle
             state: "off"
-        sequence:
-          - service: !input notify_email
-            data:
-              title: "{ n_title }"
-              message: "{ n_message }"
+        sequence: !input 'actions'
+        #  - service: !input notify_email
+        #    data:
+        #      title: "{ n_title }"
+        #      message: "{ n_message }"
