@@ -23,6 +23,7 @@ blueprint:
       selector:
         device:
           integration: smtp
+    notification_title:
       name: Notification title (Optional)
       default: "Tablet has left app"
     notification_message:
