@@ -30,18 +30,20 @@ blueprint:
       name: Notification message (Optional)
       default: "Check tablet and put it back in the correct app"
 
-trigger:
-  - platform: state
-    entity_id: !input app_sensor
-    from: nz.co.aptsoftware
+    trigger:
+      - platform: state
+        entity_id: !input app_sensor
+        from: nz.co.aptsoftware
+        
+    mode: single
 
-condition:
-  - condition: state
-    entity_id: !input disable_toggle
-    state: "off"
+    condition:
+      - condition: state
+        entity_id: !input disable_toggle
+        state: "off"
 
-action:
-  - service: !input notify_email
-    data:
-      title: !input notification_title
-      message: !input notification_message
+    action:
+      - service: !input notify_email
+        data:
+          title: !input notification_title
+          message: !input notification_message
