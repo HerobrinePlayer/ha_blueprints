@@ -1,0 +1,46 @@
+blueprint:
+  name: Tablet Out of App Email
+  description: Send a email if a tablet exits the app based on the current app
+  domain: automation
+  input:
+    app_sensor:
+      name: Last Used App Sensor
+      description: This will be used to track the tablets current app
+      selector:
+        entity:
+          domain: binary_sensor
+          device_class: motion
+    disable_toggle:
+      name: Disable Toggle
+      description: A Toggle that disables this if enabled
+      selector:
+        entity:
+          domain: input_boolean
+          multiple: false
+    notify_email:
+      name: Email Service
+      description: To send the emails from
+      selector:
+        device:
+          integration: smtp
+      name: Notification title (Optional)
+      default: "Tablet has left app"
+    notification_message:
+      name: Notification message (Optional)
+      default: "Check tablet and put it back in the correct app"
+
+trigger:
+  - platform: state
+    entity_id: !input app_sensor
+    from: nz.co.aptsoftware
+
+condition:
+  - condition: state
+    entity_id: !input disable_toggle
+    state: "off"
+
+action:
+  - service: !input notify_email
+    data:
+      title: !input notification_title
+      message: !input notification_message
